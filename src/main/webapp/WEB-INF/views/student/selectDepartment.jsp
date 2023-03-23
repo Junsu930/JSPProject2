@@ -5,37 +5,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>학과 조회</title>
+<title>${ param.department} 학과 조회</title>
 <style>
-table {
-  border-collapse: separate;
-  border-spacing: 0;
-  border: 0;
+
+
+#result-table{
+	border-collapse : collapse;
 }
-th,
-td {
-  padding: 6px 15px;
-  border: 0;
-}
-th {
-  background: black;
-  color: white;
-}
-tr:first-child th:first-child {
-  border-top-left-radius: 6px;
-}
-tr:first-child th:last-child {
-  border-top-right-radius: 6px;
+thead th{
+	background-color : black;
+	color : white;
+	padding : 5px 30px;
 }
 
-tr:nth-child(odd) td {
-  background-color:silver;
+tbody td:not(:nth-child(5)){
+	text-align : center;
 }
-tr:last-child td:first-child {
-  border-bottom-left-radius: 6px;
+
+tbody > tr:nth-child(2n) td{
+	background-color: #ddd;
 }
-tr:last-child td:last-child {
-  border-bottom-right-radius: 6px;
+
+tbody > tr:hover > td {
+	background-color: #B1AFFF;
+	cursor : pointer
 }
 </style>
 </head>
@@ -43,23 +36,27 @@ tr:last-child td:last-child {
 		
 		<h1>[${param.department}]학과 검색 결과</h1>
 		<c:if test="${!empty stdList}">
-		<table border="1">
-			<tr>
-				<th>순서</th>
-				<th>학번</th>
-				<th>이름</th>
-				<th>학과</th>
-				<th>주소</th>
-			</tr>
-			<c:forEach var="student" items="${stdList}" varStatus="vs">
+		<table id="result-table">
+			<thead>
 				<tr>
-					<td>${vs.count}</td>
-					<td>${student.studentNo}</td>
-					<td>${student.studentName}</td>
-					<td>${student.departmentName}</td>
-					<td>${student.studentAddress}</td>
+					<th>순서</th>
+					<th>학번</th>
+					<th>이름</th>
+					<th>학과</th>
+					<th>주소</th>
 				</tr>
-			</c:forEach>
+			</thead>
+			<tbody>
+				<c:forEach var="student" items="${stdList}" varStatus="vs">
+					<tr>
+						<td>${vs.count}</td>
+						<td>${student.studentNo}</td>
+						<td>${student.studentName}</td>
+						<td>${student.departmentName}</td>
+						<td>${student.studentAddress}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
 		</table>
 		</c:if>
 		<c:if test="${empty stdList}">

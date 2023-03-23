@@ -34,7 +34,7 @@ public class StudentDAO {
 		
 	}
 
-	/** 
+	/** 전체 조회 메서드
 	 * @param conn
 	 * @return
 	 */
@@ -74,4 +74,42 @@ public class StudentDAO {
 		return stdList;
 	}
 
+	/** 학과 검색 조회 메서드
+	 * @param conn
+	 * @param department
+	 * @return stdList
+	 * @throws Exception
+	 */
+	public List<Student> selectDepartment(Connection conn, String department) throws Exception{
+		
+		List<Student> stdList = new ArrayList<>();
+		
+		try {
+		String sql = prop.getProperty("selectDepartment");
+		
+		
+		pstmt= conn.prepareStatement(sql);
+		String dep = "%" +department +"%";
+		pstmt.setString(1,dep);
+		
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+			String studentNo = rs.getString("STUDENT_NO");
+			String studentName = rs.getString("STUDENT_NAME");
+			String studentAddress = rs.getString("STUDENT_ADDRESS");
+			String departmentName = rs.getString("DEPARTMENT_NAME");
+			
+			stdList.add(new Student(studentNo, studentName, studentAddress, departmentName));
+			
+		}
+		
+		}finally {
+			
+			close(rs);
+			close(pstmt);
+		}
+		
+		return stdList;
+	}
 }
